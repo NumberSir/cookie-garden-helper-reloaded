@@ -1150,7 +1150,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 			}
 			
 			var soilCombo = this.getSoilRotationCombo();
-			var targetSoil = young>matur?soilCombo[1]:soilCombo[2];
+			var targetSoil = young>=matur?soilCombo[1]:soilCombo[2];
 			
 			if( M.soil!=targetSoil && M.parent.amount>=M.soilsById[targetSoil].req && M.nextSoil<Date.now() ){
 				M.nextSoil=Date.now()+(Game.Has('Turbo-charged soil')?1:(1000*60*10));

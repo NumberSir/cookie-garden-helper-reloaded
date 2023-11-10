@@ -1,23 +1,23 @@
 //Steam version of https://github.com/yannprada/cookie-garden-helper
 Game.registerMod("cookiegardenhelperreloaded",{
 	init:function(){
-		this.name = 'Cookie Garden Helper - Reloaded';
+		this.name = '饼干花园助手重置版';
 		this.modid = 'cookiegardenhelperreloaded';
 		this.version = '1.5';
 		this.GameVersion = '2.042';
-		
+
 		this.config = this.defaultConfig();
 		this.doc = {
 			elId: document.getElementById.bind(document),
 			qSel: document.querySelector.bind(document),
 			qSelAll: document.querySelectorAll.bind(document),
 		};
-		
+
 		this.build();
 		this.start();
-		
-		if (Game.prefs.popups) Game.Popup(this.name + ' v' + this.version + ' loaded!');
-		else Game.Notify(this.name + ' v' + this.version + ' loaded!', '', '', 1, 1);
+
+		if (Game.prefs.popups) Game.Popup(this.name + ' v' + this.version + '已加载！');
+		else Game.Notify(this.name + ' v' + this.version + '已加载！', '', '', 1, 1);
 	},
 	//Main
 	start:function() {
@@ -35,7 +35,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 			}else{
 				this.config.protectedSeeds.splice(this.config.protectedSeeds.indexOf(seedId), 1);  //deleting
 			}
-			
+
 			this.doc.elId('cghrSeedListDiv').innerHTML = this.getSeedListDisplay();
 		}else{
 			if(!this.parentsUnlocked(seedId))return;
@@ -87,11 +87,11 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		let content = this.buildMutationPlot(seedId);
 		Game.tooltip.draw(element, window.escape(content));
 	},
-	
+
 	//Menu Stuff
 	makeId:function(id) { return this.modid + this.capitalize(id); },
 	css:function() {
-    return `
+		return `
 		#game.onMenu #cookieGardenHelperReloaded {
 		  display: none;
 		}
@@ -237,10 +237,10 @@ Game.registerMod("cookiegardenhelperreloaded",{
 	},
 	button:function(name, text, title, toggle, active) {
 		if (toggle) {
-		  return `<a class="toggleBtn option ${active ? '' : 'off'}" name="${name}" id="${this.makeId(name)}" title="${title}">
+			return `<a class="toggleBtn option ${active ? '' : 'off'}" name="${name}" id="${this.makeId(name)}" title="${title}">
 			${text}
-			<span class="toggleBtnOn">ON</span>
-			<span class="toggleBtnOff">OFF</span>
+			<span class="toggleBtnOn">启用</span>
+			<span class="toggleBtnOff">禁用</span>
 		  </a>`;
 		}
 		return `<a class="btn option" name="${name}" id="${this.makeId(name)}" title="${title}">${text}</a>`;
@@ -288,205 +288,204 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		};
 	},
 	readmeLink:function() { return 'https://github.com/Chakaa/cookie-garden-helper-reloaded/blob/master/README.md#how-it-works'; },
-	
+
 	build:function() {
 		if(	l("cookieGardenHelperReloadedProductButton") )
 			l("cookieGardenHelperReloadedProductButton").remove();
 		if(	l("cookieGardenHelperReloaded") )
 			l("cookieGardenHelperReloaded").remove();
-		
-		
+
+
 		this.doc.qSel('#row2 .productButtons').insertAdjacentHTML('beforeend', `
 			<div id="cookieGardenHelperReloadedProductButton" class="productButton">CGHR</div>`);
 		this.doc.elId('row2').insertAdjacentHTML('beforeend', `
 			<div id="cookieGardenHelperReloaded">
 			  <style>${this.css()}</style>
-			  <a href="${this.readmeLink()}" target="new">how it works</a>
-			  <div id="cookieGardenHelperReloadedTitle" class="title">Cookie Garden Helper Reloaded</div>
+			  <a href="${this.readmeLink()}" target="new">工作方式</a>
+			  <div id="cookieGardenHelperReloadedTitle" class="title">饼干花园助手重置版</div>
 			  <div id="cookieGardenHelperReloadedTools">
 				<div class="cookieGardenHelperReloadedBigPanel" id="autoHarvestPanel">
 				  <h2>
-					Auto-harvest
+					自动收获
 					${this.button('autoHarvest', '', '', true, this.config.autoHarvest)}
 				  </h2>
 				  <div class="cookieGardenHelperReloadedSubPanel">
-					<h3>immortal</h3>
+					<h3>永生植株</h3>
 					<p>
 					  ${this.button(
-						'autoHarvestAvoidImmortals', 'Avoid immortals',
-						'Do not harvest immortal plants', true,
-						this.config.autoHarvestAvoidImmortals
-					  )}
+			'autoHarvestAvoidImmortals', '永生植株除外',
+			'不要收获永生种植株', true,
+			this.config.autoHarvestAvoidImmortals
+		)}
 					</p>
-					<h3>mature</h3>
+					<h3>成熟植株</h3>
 					<p>
 					  ${this.button(
-						'autoHarvestNewSeeds', 'New seeds',
-						'Harvest new seeds as soon as they are mature', true,
-						this.config.autoHarvestNewSeeds
-					  )}
-					</p>
-					<p>
-					  ${this.button(
-						'autoHarvestMatured', 'Matured seeds',
-						'Harvest matured seeds as soon as they are mature', true,
-						this.config.autoHarvestMatured
-					  )}
+			'autoHarvestNewSeeds', '新种子',
+			'新种子只要成熟了就收获', true,
+			this.config.autoHarvestNewSeeds
+		)}
 					</p>
 					<p>
 					  ${this.button(
-						'autoHarvestCheckCpSMult', 'Check CpS mult',
-						'Check the CpS multiplier before harvesting (see below)', true,
-						this.config.autoHarvestCheckCpSMult
-					  )}
+			'autoHarvestMatured', '成熟种子',
+			'成熟种子只要成熟了就收获', true,
+			this.config.autoHarvestMatured
+		)}
+					</p>
+					<p>
+					  ${this.button(
+			'autoHarvestCheckCpSMult', '检查 CpS 乘数',
+			'在收获前检查 CpS 乘数', true,
+			this.config.autoHarvestCheckCpSMult
+		)}
 					</p>
 					<p>
 					  ${this.numberInput(
-						'autoHarvestMiniCpSMult', 'Mini CpS multiplier',
-						'Minimum CpS multiplier for the auto-harvest to happen',
-						this.config.autoHarvestMiniCpSMult
-					  )}
+			'autoHarvestMiniCpSMult', '最小 CpS 乘数',
+			'自动收获前至少要达到的 CpS 乘数',
+			this.config.autoHarvestMiniCpSMult
+		)}
 					</p>
 				  </div>
 				  <div class="cookieGardenHelperReloadedSubPanel">
-					<h3>young</h3>
+					<h3>萌芽植株</h3>
 					<p>
 					  ${this.button(
-						'autoHarvestWeeds', 'Remove weeds',
-						'Remove weeds as soon as they appear', true,
-						this.config.autoHarvestWeeds
-					  )}
+			'autoHarvestWeeds', '移除杂草',
+			'只要杂草一出现就移除掉', true,
+			this.config.autoHarvestWeeds
+		)}
 					</p>
 					<p>
 					  ${this.button(
-						'autoHarvestCleanGarden', 'Clean Garden',
-						'Only allow saved and new seeds', true,
-						this.config.autoHarvestCleanGarden
-					  )}
+			'autoHarvestCleanGarden', '清理花园',
+			'只留下储存的种子和新种子', true,
+			this.config.autoHarvestCleanGarden
+		)}
 					</p>
-					<h3>dying</h3>
+					<h3>濒死植株</h3>
 					<p>
 					  ${this.button(
-						'autoHarvestDying', 'Dying plants',
-						`Harvest dying plants, ${this.config.autoHarvestDyingSeconds}s before `
-						+ `the new tick occurs`, true,
-						this.config.autoHarvestDying
-					  )}
+			'autoHarvestDying', '濒死植株',
+			`在死亡 ${this.config.autoHarvestDyingSeconds} 秒前收获濒死植株`, true,
+			this.config.autoHarvestDying
+		)}
 					</p>
 					<p>
 					  ${this.button(
-						'autoHarvestCheckCpSMultDying', 'Check CpS mult',
-						'Check the CpS multiplier before harvesting (see below)', true,
-						this.config.autoHarvestCheckCpSMultDying
-					  )}
+			'autoHarvestCheckCpSMultDying', '检查 CpS 乘数',
+			'在收获前检查 CpS 乘数', true,
+			this.config.autoHarvestCheckCpSMultDying
+		)}
 					</p>
 					<p>
 					  ${this.numberInput(
-						'autoHarvestMiniCpSMultDying', 'Mini CpS multiplier',
-						'Minimum CpS multiplier for the auto-harvest to happen',
-						this.config.autoHarvestMiniCpSMultDying
-					  )}
+			'autoHarvestMiniCpSMultDying', '最小 CpS 乘数',
+			'自动收获前至少要达到的 CpS 乘数',
+			this.config.autoHarvestMiniCpSMultDying
+		)}
 					</p>
 				  </div>
 				</div>
 				<div class="cookieGardenHelperReloadedPanel" id="autoPlantPanel">
 				  <h2>
-					Auto-plant
+					自动种植
 					${this.button('autoPlant', '', '', true, this.config.autoPlant)}
 				  </h2>
 				  <p>
 					${this.button(
-					  'autoPlantAvoidBuffs', 'Avoid Buffs',
-					  'Make sure there is no buffs before planting (saving cookies)', true,
-					  this.config.autoPlantAvoidBuffs
-					)}
+			'autoPlantAvoidBuffs', '避免特殊效果',
+			'确保种植时不处于特殊效果时期，以确保不浪费饼干', true,
+			this.config.autoPlantAvoidBuffs
+		)}
 				  </p>
 				  <p>
 					${this.button(
-					  'autoPlantRotateSoil', 'Rotate Soil',
-					  'Rotate soil based on mature/young counts', true,
-					  this.config.autoPlantRotateSoil
-					)}
+			'autoPlantRotateSoil', '轮作',
+			'基于成熟植株/萌芽植株的数量旋转土地', true,
+			this.config.autoPlantRotateSoil
+		)}
 					${this.customButton(
-					  'autoPlantRotateSoilComboName', this.getSoilRotationCombo()[0],
-					  'Cycle on possible soil rotation combos', this.config.autoPlantRotateSoil
-					)}
+			'autoPlantRotateSoilComboName', this.getSoilRotationCombo()[0],
+			'在可能的土壤轮作组合上循环', this.config.autoPlantRotateSoil
+		)}
 				  </p>
 				  <p>
 					${this.button(
-					  'autoPlantCheckCpSMult', 'Check CpS mult',
-					  'Check the CpS multiplier before planting (see below)', true,
-					  this.config.autoPlantCheckCpSMult
-					)}
+			'autoPlantCheckCpSMult', '检查 CpS 乘数',
+			'在收获前检查 CpS 乘数', true,
+			this.config.autoPlantCheckCpSMult
+		)}
 				  </p>
 				  <p>
 					${this.numberInput(
-					  'autoPlantMaxiCpSMult', 'Maxi CpS multiplier',
-					  'Maximum CpS multiplier for the auto-plant to happen',
-					  this.config.autoPlantMaxiCpSMult
-					)}
+			'autoPlantMaxiCpSMult', '最大 CpS 乘数',
+			'自动收获前不能超过的 CpS 乘数',
+			this.config.autoPlantMaxiCpSMult
+		)}
 				  </p>
 				  <p>
-					${this.button('savePlot', 'Save plot',
-					  'Save the current plot; these seeds will be replanted later. Hold Ctrl and click to clear.')}
-					${this.labelWithState('plotIsSaved', 'No saved plot', 'Plot saved',
-					  Boolean(this.config.savedPlot.length))}
+					${this.button('savePlot', '保存花园',
+			'保存当前模式；被保存的种子将会稍后再种植。按住 Ctrl 左键点击以重置')}
+					${this.labelWithState('plotIsSaved', '尚无已保存的花园', '花园已保存',
+			Boolean(this.config.savedPlot.length))}
 				  </p>
 				  <!--
 				  <p>
 					${this.button(
-					  'autoForceTicks', 'Force ticks',
-					  'Force grow ticks to happen frequently', true,
-					  this.config.autoForceTicks
-					)}
+			'autoForceTicks', 'Force ticks',
+			'Force grow ticks to happen frequently', true,
+			this.config.autoForceTicks
+		)}
 				  </p>
 				  -->
 				</div>
 				<div class="cookieGardenHelperReloadedPanel" id="manualToolsPanel">
-				  <h2>Manual tools</h2>
+				  <h2>手动工具</h2>
 				  <p>
-					${this.button('fillGardenWithSelectedSeed', 'Plant selected seed',
-					'Plant the selected seed on all empty tiles')}
+					${this.button('fillGardenWithSelectedSeed', '种植选中的种子',
+			'在所有能种植的土地上种植已选中的种子')}
 				  </p>
 				</div>
 				<div class="cookieGardenHelperReloadedPanel" id="gardenUpgradesPanel">
-				  <h2>Garden upgrades</h2>
+				  <h2>花园升级</h2>
 				  <p id="cghrUpgradeListDiv" style=""></p>
 				</div>
 				<div class="cookieGardenHelperReloadedSeedPanel" id="seedList">
-				  <h2>Seed List ${this.button('ToggleSeedList', '+', 
-					'Display or hide seed list. In orange, what could be unlocked. In red, what cannot. Hold Ctrl and click to prevent autoHarvest.')}</h2>
+				  <h2>种子列表 ${this.button('ToggleSeedList', '+',
+			'展开或折叠种子列表。橙色是可以解锁的、红色是不能解锁的。按住 Ctrl 点击以避免自动收获。')}</h2>
 				  <p id="cghrSeedListDiv" style="display:none"></p>
 				</div>
 			  </div>
 			</div>`);
 
 		this.doc.elId('cookieGardenHelperReloadedProductButton').onclick = (event) => {
-		  this.doc.elId('cookieGardenHelperReloaded').classList.toggle('visible');
+			this.doc.elId('cookieGardenHelperReloaded').classList.toggle('visible');
 		};
 
 		this.doc.qSelAll('#cookieGardenHelperReloaded input').forEach((input) => {
-		  input.onchange = (event) => {
-			if (input.type == 'number') {
-			  let min = this.config[input.name].min;
-			  let max = this.config[input.name].max;
-			  if (min !== undefined && input.value < min) { input.value = min; }
-			  if (max !== undefined && input.value > max) { input.value = max; }
-			  this.handleChange(input.name, input.value);
-			}
-		  };
+			input.onchange = (event) => {
+				if (input.type == 'number') {
+					let min = this.config[input.name].min;
+					let max = this.config[input.name].max;
+					if (min !== undefined && input.value < min) { input.value = min; }
+					if (max !== undefined && input.value > max) { input.value = max; }
+					this.handleChange(input.name, input.value);
+				}
+			};
 		});
 
 		this.doc.qSelAll('#cookieGardenHelperReloaded a.toggleBtn').forEach((a) => {
-		  a.onclick = (event) => {
-			this.handleToggle(a.name);
-		  };
+			a.onclick = (event) => {
+				this.handleToggle(a.name);
+			};
 		});
 
 		this.doc.qSelAll('#cookieGardenHelperReloaded a.btn').forEach((a) => {
-		  a.onclick = (event) => {
-			this.handleClick(a.name);
-		  };
+			a.onclick = (event) => {
+				this.handleClick(a.name);
+			};
 		});
 
 		this.doc.elId('cookiegardenhelperreloadedPlotIsSaved').onmouseout = (event) => {
@@ -513,7 +512,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 	getSeedListDisplay:function() {
 		str = "";
 		if(this.isActive()){
-			str += "<p>Orange - Unlockable / Red - Locked / Aura - Protection against AutoHarvest (Ctrl+Click)</p>";
+			str += "<p>橙色 - 可解锁 / 红色 - 已锁定 / 光环 - 不被自动收获的 (按住 Ctrl 点击)</p>";
 			for (let i = 1; i <= this.minigame().plantsById.length; i++){
 				var p = this.getPlant(i)
 				str += `<div class="cookieGardenHelperReloadedSmallSubPanel seedListItem" id="plant-${i}">
@@ -522,27 +521,27 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				</div>`;
 			}
 		}
-		
+
 		return str;
 	},
 	setSeedListTooltips:function() {
 		this.doc.qSelAll('.seedListItem').forEach((d) => {
-		  d.onclick = (event) => {
-			this.handleSeedClick(parseInt(d.id.split('-')[1]));
-		  };
+			d.onclick = (event) => {
+				this.handleSeedClick(parseInt(d.id.split('-')[1]));
+			};
 
-		  d.onmouseout = (event) => {
-		  	this.handleMouseoutSeedList(this);
-		  }
-		  d.onmouseover = (event) => {
-		  	this.handleMouseoverSeedList(this, parseInt(d.id.split('-')[1]));
-		  }
+			d.onmouseout = (event) => {
+				this.handleMouseoutSeedList(this);
+			}
+			d.onmouseover = (event) => {
+				this.handleMouseoverSeedList(this, parseInt(d.id.split('-')[1]));
+			}
 		});
 	},
 	isMutationPlace:function(parents,x,y){
 		if(this.isActive()){
 			var l = Game.Objects['Farm'].level
-			
+
 			//Level 1
 			if(l==1 && parents==1){
 				if(x==2 && (y==2||y==3)){ return 0 }
@@ -757,19 +756,19 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		if(parents.length<=0){ return true; }
 		var p1 = parents[0]
 		var p2 = (parents.length>1?parents[1]:parents[0]);
-		
+
 		return this.isSeedUnlocked(p1+1) && this.isSeedUnlocked(p2+1)
 	},
 	buildMutationPlotData:function(seedId) {
 		var m = this.getPlantParents(seedId);
-		
+
 		var l = Game.Objects['Farm'].level
 		//Juicy queenbeet
 		if(seedId==22){
 			var Q = [21,0]
 			var X = [0,0]
 			if(l>=9){
-				return [ 
+				return [
 					[Q,Q,Q,Q,Q,Q],
 					[Q,X,Q,Q,X,Q],
 					[Q,Q,Q,Q,Q,Q],
@@ -779,7 +778,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=8){
-				return [ 
+				return [
 					[X,X,X,X,X,X],
 					[Q,Q,Q,Q,Q,Q],
 					[Q,X,Q,Q,X,Q],
@@ -789,7 +788,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=7){
-				return [ 
+				return [
 					[X,X,X,X,X,X],
 					[X,Q,Q,Q,Q,Q],
 					[X,Q,X,Q,X,Q],
@@ -799,7 +798,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=6){
-				return [ 
+				return [
 					[X,X,X,X,X,X],
 					[X,Q,Q,Q,Q,Q],
 					[X,Q,X,Q,X,Q],
@@ -809,7 +808,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=5){
-				return [ 
+				return [
 					[X,X,X,X,X,X],
 					[X,Q,Q,Q,X,X],
 					[X,Q,X,Q,X,X],
@@ -819,7 +818,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=4){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,Q,Q,Q,X,X],
@@ -829,7 +828,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 				];
 			}
 			if(l>=3){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,Q,Q,Q,X],
@@ -854,7 +853,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[C,X,C,X,X,C]
 				];
 			}else if(l>=8){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[C,X,C,X,X,C],
 					[C,C,C,X,X,C],
@@ -863,7 +862,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[C,X,C,X,X,C]
 				];
 			}else if(l>=7){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,C,X,C,X,C],
 					[X,C,X,C,X,C],
@@ -872,7 +871,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,C,X,C,X,C]
 				];
 			}else if(l>=6){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,C,C,X,C,C],
 					[X,X,C,X,C,X],
@@ -881,7 +880,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=5){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,C,X,X,C,X],
 					[X,C,C,C,C,X],
@@ -890,7 +889,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=4){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,C,X,C,X],
@@ -899,7 +898,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=3){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,C,X,C,X],
@@ -908,7 +907,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=2){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,C,X,C,X],
@@ -917,7 +916,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=1){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
@@ -933,7 +932,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 			var E = [8,0]
 			var X = [0,0]
 			if(l>=9){
-				return [ 
+				return [
 					[X,E,E,E,E,X],
 					[E,X,X,X,X,E],
 					[E,X,E,E,X,E],
@@ -942,7 +941,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,E,E,E,E,X]
 				];
 			}else if(l>=8){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[E,E,X,E,X,E],
 					[X,E,X,E,E,E],
@@ -951,7 +950,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[E,E,X,E,X,E]
 				];
 			}else if(l>=7){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,E,E,X,E,E],
 					[X,X,E,X,E,X],
@@ -960,7 +959,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,E,E,X,E,E]
 				];
 			}else if(l>=6){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,E,E,E,X],
 					[X,X,X,X,X,X],
@@ -969,7 +968,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=5){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,E,E,X,E,X],
 					[X,X,E,E,E,X],
@@ -978,7 +977,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=4){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,E,X,E,E,X],
@@ -987,7 +986,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=3){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,E,X,E,X],
@@ -996,7 +995,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=2){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,E,X,E,X],
@@ -1004,8 +1003,6 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X]
 				];
-			}else if(l<2){ //Alternative parents
-				m=[29,8];
 			}
 		}
 		//Everdaisy
@@ -1014,7 +1011,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 			var E = [8,0]
 			var X = [0,0]
 			if(l>=9){
-				return [	
+				return [
 					[X,T,E,E,X,T],
 					[T,T,X,T,X,T],
 					[E,X,X,E,X,E],
@@ -1023,7 +1020,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[T,T,E,T,T,X]
 				];
 			}else if(l>=8){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[T,T,T,T,T,T],
 					[X,X,X,X,X,X],
@@ -1032,7 +1029,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[T,T,T,T,T,T]
 				];
 			}else if(l>=7){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,T,T,T,T,T],
 					[X,X,X,X,X,X],
@@ -1041,7 +1038,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,T,T,T,T,T]
 				];
 			}else if(l>=6){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,T,X,E,X,T],
 					[X,T,X,E,X,T],
@@ -1050,7 +1047,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=5){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,T,E,E,X],
 					[X,T,T,X,T,X],
@@ -1059,7 +1056,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=4){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,E,E,E,E,X],
@@ -1068,7 +1065,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					[X,X,X,X,X,X]
 				];
 			}else if(l>=3){
-				return [	
+				return [
 					[X,X,X,X,X,X],
 					[X,X,X,X,X,X],
 					[X,X,E,X,T,X],
@@ -1088,13 +1085,13 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		if(seedId==31 && l<=2){
 			m=[29,8];
 		}
-		
+
 		let plot = this.clone(this.minigame().plot);
 		for (let x=0; x<6; x++) {
-		  for (let y=0; y<6; y++) {
-			var mid = this.isMutationPlace(m.length,y,x);
-			plot[x][y] = [(mid>=0?m[mid]+1:0), 0];
-		  }
+			for (let y=0; y<6; y++) {
+				var mid = this.isMutationPlace(m.length,y,x);
+				plot[x][y] = [(mid>=0?m[mid]+1:0), 0];
+			}
 		}
 		return plot;
 	},
@@ -1103,7 +1100,7 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		var mutations = [[0],[0],[0,1],[1,2],[0,3],[4],[4,3],[2,6],[0],[0,12],[9,11],[12],[13],[],[6,10],[6,14],[14],[9,19],[2,11],[29,12],[8,9],[20],[20],[13],[23],[23,1],[23,6],[24,29],[23,12],[11,4],[7],[0,10],[31,7],[7,23]];
 		return mutations[seedId-1];
 	},
-	
+
 	//Garden functions
 	minigame:function(){ return Game.Objects['Farm'].minigame; },
 	isActive:function(){ return this.minigame() !== undefined; },
@@ -1118,11 +1115,11 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		//	3 : next soil combo id
 		switch (this.config.autoPlantRotateSoilCombo) {
 			case 0:
-				return ['Fertilizer/Clay',1,2,1];
+				return ['肥料/黏土',1,2,1];
 			case 1:
-				return ['Fertilizer/WoodChips',1,4,0];
+				return ['肥料/木屑',1,4,0];
 			default:
-				return ['Fertilizer/Clay Def',1,2,1];
+				return ['肥料/优质黏土',1,2,1];
 		}
 	},
 	setNextCombo:function(){
@@ -1148,10 +1145,10 @@ Game.registerMod("cookiegardenhelperreloaded",{
 					}
 				}
 			}
-			
+
 			var soilCombo = this.getSoilRotationCombo();
-			var targetSoil = young>=matur?soilCombo[1]:soilCombo[2];
-			
+			var targetSoil = young>matur?soilCombo[1]:soilCombo[2];
+
 			if( M.soil!=targetSoil && M.parent.amount>=M.soilsById[targetSoil].req && M.nextSoil<Date.now() ){
 				M.nextSoil=Date.now()+(Game.Has('Turbo-charged soil')?1:(1000*60*10));
 				M.toCompute=true;
@@ -1176,13 +1173,13 @@ Game.registerMod("cookiegardenhelperreloaded",{
 	clonePlot:function(){
 		let plot = this.clone(this.minigame().plot);
 		for (let x=0; x<6; x++) {
-		  for (let y=0; y<6; y++) {
-			let [seedId, age] = plot[x][y];
-			let plant = this.getPlant(seedId);
-			if (plant != undefined && !plant.plantable) {
-			  plot[x][y] = [0, 0];
+			for (let y=0; y<6; y++) {
+				let [seedId, age] = plot[x][y];
+				let plant = this.getPlant(seedId);
+				if (plant != undefined && !plant.plantable) {
+					plot[x][y] = [0, 0];
+				}
 			}
-		  }
 		}
 		return plot;
 	},
@@ -1194,39 +1191,39 @@ Game.registerMod("cookiegardenhelperreloaded",{
 	getPlantStage:function(tile){
 		let plant = this.getPlant(tile.seedId);
 		if (tile.age < plant.mature) {
-		  return 'young';
+			return 'young';
 		} else {
-		  if ((tile.age + Math.ceil(plant.ageTick + plant.ageTickR)) < 100) {
-			return 'mature';
-		  } else {
-			return 'dying';
-		  }
+			if ((tile.age + Math.ceil(plant.ageTick + plant.ageTickR)) < 100) {
+				return 'mature';
+			} else {
+				return 'dying';
+			}
 		}
 	},
 	tileIsEmpty:function(x, y){ return this.getTile(x, y).seedId == 0; },
 	plantSeed:function(seedId, x, y){
 		let plant = this.getPlant(seedId + 1);
 		if (plant.plantable) {
-		  this.minigame().useTool(seedId, x, y);
+			this.minigame().useTool(seedId, x, y);
 		}
 	},
 	forEachTile:function(callback){
 		for (let x=0; x<6; x++) {
-		  for (let y=0; y<6; y++) {
-			if (this.minigame().isTileUnlocked(x, y)) {
-			  callback(x, y);
+			for (let y=0; y<6; y++) {
+				if (this.minigame().isTileUnlocked(x, y)) {
+					callback(x, y);
+				}
 			}
-		  }
 		}
 	},
 	harvest:function(x, y){ this.minigame().harvest(x, y, 1); },
 	fillGardenWithSelectedSeed:function(){
 		if (this.selectedSeed() > -1) {
-		  this.forEachTile((x, y) => {
-			if (this.tileIsEmpty(x, y)) {
-			  this.plantSeed(this.selectedSeed(), x, y);
-			}
-		  });
+			this.forEachTile((x, y) => {
+				if (this.tileIsEmpty(x, y)) {
+					this.plantSeed(this.selectedSeed(), x, y);
+				}
+			});
 		}
 	},
 	handleYoung:function(plant, x, y){
@@ -1237,26 +1234,30 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		if(this.config.savedPlot.length>0){
 			let [seedId, age] = this.config.savedPlot[y][x];
 			seedId--;
-			if ( this.config.autoHarvestCleanGarden && ((plant.unlocked && seedId == -1) || (seedId > -1 && seedId != plant.id && plant.unlocked)) ) {
+			if ( this.config.autoHarvestCleanGarden && (
+				(plant.unlocked && seedId == -1)
+				||
+				(seedId > -1 && seedId != plant.id && plant.unlocked)
+			) ) {
 				this.harvest(x, y);
 			}
 		}
 	},
 	handleMature:function(plant, x, y){
 		if (!plant.unlocked && this.config.autoHarvestNewSeeds) {
-		  this.harvest(x, y);
+			this.harvest(x, y);
 		} else if (this.isCpsBonus(plant) && this.config.autoHarvestCheckCpSMult && this.CpSMult() >= this.config.autoHarvestMiniCpSMult.value) {
-		  this.harvest(x, y);
+			this.harvest(x, y);
 		}else if(this.config.autoHarvestMatured){
-		  this.harvest(x, y);
+			this.harvest(x, y);
 		}
 	},
 	handleDying:function(plant, x, y){
 		if(!this.isExplodable(plant)){
 			if (this.isCpsBonus(plant) && this.config.autoHarvestCheckCpSMultDying && this.CpSMult() >= this.config.autoHarvestMiniCpSMultDying.value) {
-			this.harvest(x, y);
+				this.harvest(x, y);
 			} else if (this.config.autoHarvestDying && this.secondsBeforeNextTick() <= this.config.autoHarvestDyingSeconds) {
-			this.harvest(x, y);
+				this.harvest(x, y);
 			}
 		}
 	},
@@ -1285,56 +1286,56 @@ Game.registerMod("cookiegardenhelperreloaded",{
 			//Display Upgrades
 			this.doc.elId('cghrUpgradeListDiv').textContent = '';
 			this.doc.elId('cghrUpgradeListDiv').innerHTML = this.getUpgradeListDisplay();
-			
+
 			// sacrifice garden
 			if(!this.oldConvert){
 				this.oldConvert = this.minigame().convert;
 				this.minigame().convert = () => {
-				  this.config.savedPlot = [];
-				  this.labelToggleState('plotIsSaved', false);
-				  this.handleToggle('autoHarvest');
-				  this.handleToggle('autoPlant');
-				  this.save();
-				  this.oldConvert();
+					this.config.savedPlot = [];
+					this.labelToggleState('plotIsSaved', false);
+					this.handleToggle('autoHarvest');
+					this.handleToggle('autoPlant');
+					this.save();
+					this.oldConvert();
 				}
 			}
-			
+
 			this.forEachTile((x, y) => {
-			  if (this.config.autoHarvest && !this.tileIsEmpty(x, y)) {
-				let tile = this.getTile(x, y);
-				let plant = this.getPlant(tile.seedId);
+				if (this.config.autoHarvest && !this.tileIsEmpty(x, y)) {
+					let tile = this.getTile(x, y);
+					let plant = this.getPlant(tile.seedId);
 
-				if ((plant.immortal && this.config.autoHarvestAvoidImmortals) || this.config.protectedSeeds.includes(tile.seedId)) {
-				  // do nothing
-				} else {
-				  let stage = this.getPlantStage(tile);
-				  switch (stage) {
-					case 'young':
-					  this.handleYoung(plant, x, y);
-					  break;
-					case 'mature':
-					  this.handleMature(plant, x, y);
-					  break;
-					case 'dying':
-					  this.handleDying(plant, x, y);
-					  break;
-					default:
-					  console.log(`Unexpected plant stage: ${stage}`);
-				  }
+					if ((plant.immortal && this.config.autoHarvestAvoidImmortals) || this.config.protectedSeeds.includes(tile.seedId)) {
+						// do nothing
+					} else {
+						let stage = this.getPlantStage(tile);
+						switch (stage) {
+							case 'young':
+								this.handleYoung(plant, x, y);
+								break;
+							case 'mature':
+								this.handleMature(plant, x, y);
+								break;
+							case 'dying':
+								this.handleDying(plant, x, y);
+								break;
+							default:
+								console.log(`Unexpected plant stage: ${stage}`);
+						}
+					}
 				}
-			  }
 
-			  if (this.config.autoPlant &&
+				if (this.config.autoPlant &&
 					(!this.config.autoPlantCheckCpSMult || this.CpSMult() <= this.config.autoPlantMaxiCpSMult.value) &&
 					(!this.config.autoPlantAvoidBuffs || this.getBuffMultCps()<=1) &&
-				  	this.tileIsEmpty(x, y) &&
-				  	this.config.savedPlot.length > 0
+					this.tileIsEmpty(x, y) &&
+					this.config.savedPlot.length > 0
 				) {
-				let [seedId, age] = this.config.savedPlot[y][x];
-				if (seedId > 0) {
-					this.plantSeed(seedId - 1, x, y);
+					let [seedId, age] = this.config.savedPlot[y][x];
+					if (seedId > 0) {
+						this.plantSeed(seedId - 1, x, y);
+					}
 				}
-			  }
 			});
 
 			if (this.config.autoPlantRotateSoil){
@@ -1385,10 +1386,10 @@ Game.registerMod("cookiegardenhelperreloaded",{
 		if(str){
 			obj = JSON.parse(str)
 		}
-		
+
 		this.config = {
-		  ...this.defaultConfig(),
-		  ...obj,
+			...this.defaultConfig(),
+			...obj,
 		};
 		this.build();
 	},
